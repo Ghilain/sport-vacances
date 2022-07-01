@@ -1,18 +1,25 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import NavBar from './component/header';
-import HomePage from './pages/HomePage';
-import Country from './pages/Details';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Routes, Route } from 'react-router-dom';
+import { getData } from './redux/sportSlice';
+import { getDetails } from './redux/detailsSlice';
+import Sports from './pages/HomePage';
+import Details from './pages/Details';
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getData());
+    dispatch(getDetails());
+  }, []);
+
   return (
-    <Router>
-      <NavBar />
+    <div className="container">
       <Routes>
-        <Route exact path="/" element={<HomePage />} />
-        <Route path="/player/name" element={<Country />} />
+        <Route path="/" element={<Sports />} />
+        <Route path="/detail" element={<Details />} />
       </Routes>
-    </Router>
+    </div>
   );
 }
 

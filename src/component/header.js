@@ -1,36 +1,41 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { TiArrowBackOutline } from 'react-icons/ti';
-import { BsMic } from 'react-icons/bs';
-import { AiOutlineSetting } from 'react-icons/ai';
-import logo from '../images/logo.png';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { MdKeyboardArrowLeft, MdKeyboardVoice } from 'react-icons/md';
+import { TbSettings } from 'react-icons/tb';
+import styles from './Header.module.css';
 
-function NavBar() {
-  const detailsNav = <TiArrowBackOutline className="goBack" />;
-  const header = 'Basketball Players';
-  const location = useLocation();
-  const goBack = location.pathname.includes('player') ? detailsNav : '';
-
+const Header = (props) => {
+  const { heading } = props;
   return (
-    <nav>
-      <div className="nav1">
-        <NavLink exact="true" to={{ pathname: '/' }}>
-          {goBack}
-        </NavLink>
-        <h1 className="header1">BASKETBALL-PLAYERS</h1>
-        <div className="navIcons">
-          <BsMic />
-          <AiOutlineSetting />
-        </div>
+    <header className={styles.header}>
+      <Link to="/" className={styles.link}>
+        {window.location.pathname !== '/'
+          && (
+            <MdKeyboardArrowLeft
+              className={styles.arrowBack}
+            />
+          )}
+      </Link>
+      <p className={styles.headerHeading}>{heading}</p>
+      <div className={styles.headerSide}>
+        <MdKeyboardVoice
+          className={styles.sideIcon}
+        />
+        <TbSettings
+          className={styles.sideIcon}
+        />
       </div>
-      <div className="nav2">
-        <img src={logo} alt="logo" className="logo" />
-        <h1 className="header2">
-          {header}
-        </h1>
-      </div>
-    </nav>
+    </header>
   );
-}
+};
 
-export default NavBar;
+export default Header;
+
+Header.propTypes = {
+  heading: PropTypes.string,
+};
+
+Header.defaultProps = {
+  heading: 'header Heading',
+};
